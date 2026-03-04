@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TiendaTech - Inicio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <a href="index.html" class="logo">
+                <i class="fas fa-store"></i>
+                <span>TiendaTech</span>
+            </a>
+            <div class="nav-actions">
+                <a href="admin.php" class="btn-admin">Admin</a>
+                <a href="cart.php" class="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="hero-overlay">
+            <img src="https://images.unsplash.com/photo-1768225707204-e334fb30bde1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWNoJTIwc3RvcmUlMjBiYW5uZXJ8ZW58MXx8fHwxNzcyMTIxNDg3fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Banner Tech">
+        </div>
+        <div class="container hero-content">
+            <div class="hero-text-wrapper">
+                <h1>Bienvenido al Futuro de la Tecnología</h1>
+                <p>Descubre tecnología de vanguardia y gadgets premium.</p>
+                <a href="#productos" class="hero-btn">Comprar Ahora <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="product-grid-container" id="productos">
+        <div class="header-section">
+            <h2>Productos Destacados</h2>
+            <p>Explora nuestra selección curada de productos tecnológicos premium</p>
+        </div>
+
+        <div class="grid-layout" id="contenedor-productos">
+            <p>Cargando productos...</p>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            cargarInventario();
+        });
+
+        function cargarInventario() {
+            // Llamamos a la API interna
+            fetch('../api.php')
+                .then(response => response.json())
+                .then(json => {
+                    if(json.status === "success") {
+                        renderizarProductos(json.data);
+                    }
+                })
+                .catch(err => console.error("Error al conectar con la API:", err));
+        }
+
+        function renderizarProductos(productos) {
+            const contenedor = document.getElementById('contenedor-productos');
+            contenedor.innerHTML = '';
+
+            productos.forEach(p => {
+                // Reconstruimos tu diseño de tarjeta exacto
+                const card = `
+                <article class="product-card">
+                    <div class="card-image">
+                        <img src="${p.imagen_url}" alt="${p.nombre}">
+                    </div>
+                    <div class="card-content">
+                        <span class="category">${p.categoria}</span>
+                        <h3>${p.nombre}</h3>
+                        <p class="description">${p.descripcion}</p>
+                        ${p.alerta_stock ? '<br><span style="color:red; font-weight:bold;">⚠️ Reabastecimiento Necesario</span>' : ''}
+                    </div>
+                    <div class="card-footer">
+                        <span class="price">$${parseFloat(p.precio).toFixed(2)}</span>
+                        <a href="../update_card.php?id=${p.id}&action=add&name=${encodeURIComponent(p.nombre)}&price=${p.precio}&img=${encodeURIComponent(p.imagen_url)}" class="add-btn">
+                            <i class="fas fa-shopping-cart"></i> Añadir
+                        </a>
+                    </div>
+                </article>`;
+                contenedor.innerHTML += card;
+            });
+        }
+    </script>
+</body>
+</html>

@@ -12,7 +12,7 @@ if (isset($_SESSION['admin_logged'])) { header("Location: admin.php"); exit(); }
 <body class="admin-body" style="display:flex; justify-content:center; align-items:center; height:100vh;">
     <div class="card" style="width: 350px; padding: 2rem;">
         <h2 style="text-align:center;">Iniciar Sesión</h2>
-        <form action="auth.php" method="POST">
+        <form action="../core/auth.php" method="POST">
             <input type="text" name="user" placeholder="Usuario" required style="width:100%; margin-bottom:1rem;">
             <input type="password" name="pass" placeholder="Contraseña" required style="width:100%; margin-bottom:1rem;">
             <button type="submit" class="btn-checkout">Entrar</button>

@@ -7,11 +7,13 @@ if (!isset($_SESSION['admin_logged'])) {
     exit();
 }
 
-include 'db.php'; 
+require_once __DIR__ . '/../data/db.php';
+$db = new Database();
+$conn = $db->getConnection();
 
 // Eliminar productos 
 if(isset($_GET['delete'])){
-    $id = $_GET['delete'];
+    $id = (int) $_GET['delete'];
     $conn->query("DELETE FROM productos WHERE id=$id");
     header("location: admin.php");
     exit();
@@ -31,11 +33,11 @@ if(isset($_GET['delete'])){
     <header class="admin-header">
         <div class="container flex-header" style="display: flex; justify-content: space-between; align-items: center;">
             <div style="display: flex; align-items: center; gap: 2rem;">
-                <a href="index.php" class="btn-back"><i class="fas fa-arrow-left"></i> Volver</a>
+                <a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Volver</a>
                 <h1><i class="fas fa-store"></i> Panel de Administración</h1>
             </div>
             
-            <a href="logout.php" class="btn-delete" style="border-radius: 20px; padding: 0.5rem 1.2rem; text-decoration: none; font-weight: bold;">
+            <a href="../logout.php" class="btn-delete" style="border-radius: 20px; padding: 0.5rem 1.2rem; text-decoration: none; font-weight: bold;">
                 <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
             </a>
         </div>
@@ -63,7 +65,7 @@ if(isset($_GET['delete'])){
                     </thead>
                     <tbody>
                         <?php
-                        $result = $conn->query("SELECT * FROM productos");
+                        $result = $conn->query("SELECT id, nombre AS name, categoria AS category, precio AS price, imagen_url AS image FROM productos");
                         while($row = $result->fetch_assoc()): ?>
                         <tr>
                             <td><img src="<?php echo $row['image']; ?>" class="img-thumb"></td>
@@ -91,7 +93,7 @@ if(isset($_GET['delete'])){
         <div class="modal-content">
             <h3><i class="fas fa-plus-circle"></i> Nuevo Producto</h3>
             <hr>
-            <form action="save_product.php" method="POST">
+            <form action="../save_product.php" method="POST">
                 <div class="modal-body">
                     <label>Nombre del Producto</label>
                     <input type="text" name="name" placeholder="Ej. Laptop Gaming" required>
