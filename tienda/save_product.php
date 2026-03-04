@@ -9,9 +9,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'] ?? '';
     $category = $_POST['category'] ?? '';
     $price = (float) ($_POST['price'] ?? 0);
+    $stock = (int) ($_POST['stock'] ?? 0);
+    if ($stock < 0) {
+        $stock = 0;
+    }
     $image = $_POST['image'] ?? '';
     $description = $_POST['description'] ?? '';
-    $stock = 0;
     $id_proveedor = 1;
 
     $stmt = $conn->prepare("INSERT INTO productos (nombre, categoria, precio, stock, imagen_url, descripcion, id_proveedor) VALUES (?, ?, ?, ?, ?, ?, ?)");

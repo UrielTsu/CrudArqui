@@ -1,6 +1,6 @@
 <?php
 // Archivo: /data/ProductoRepository.php
-require_once 'Database.php';
+require_once __DIR__ . '/db.php';
 
 class ProductoRepository {
     private $conn;

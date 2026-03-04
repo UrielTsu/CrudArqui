@@ -364,7 +364,7 @@ td { padding: 1rem; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
     padding: 2rem;
     border-radius: 15px;
     width: 90%;
-    max-width: 500px;
+    max-width: 680px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
@@ -375,4 +375,69 @@ td { padding: 1rem; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
     border: 1px solid #ddd;
     border-radius: 8px;
     box-sizing: border-box; 
+}
+
+.product-form-card {
+    max-width: 680px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 16px;
+}
+
+.product-form-title {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.product-form {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.product-form label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.product-form input,
+.product-form textarea {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    font-size: 1.05rem;
+    outline: none;
+    box-sizing: border-box;
+    background: #ffffff;
+}
+
+.product-form input:focus,
+.product-form textarea:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+.form-actions {
+    margin-top: 1.4rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+.btn-cancel {
+    background: #e2e8f0;
+    color: #1e3a8a;
+    border: none;
+    border-radius: 12px;
+    padding: 0.65rem 1.1rem;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn-save {
+    border-radius: 12px;
+    padding: 0.65rem 1.2rem;
+    font-weight: 600;
 }

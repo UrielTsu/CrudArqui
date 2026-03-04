@@ -2,7 +2,7 @@
 // Archivo: /core/InventarioService.php
 
 // Importamos la capa de datos
-require_once __DIR__ . '/../data/ProductoRepository.php';
+require_once __DIR__ . '/../data/pr.php';
 
 class InventarioService {
     private $repository;

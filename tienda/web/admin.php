@@ -14,8 +14,10 @@ $conn = $db->getConnection();
 // Eliminar productos 
 if(isset($_GET['delete'])){
     $id = (int) $_GET['delete'];
-    $conn->query("DELETE FROM productos WHERE id=$id");
-    header("location: admin.php");
+    $stmtDelete = $conn->prepare("DELETE FROM productos WHERE id = ?");
+    $stmtDelete->bind_param("i", $id);
+    $stmtDelete->execute();
+    header("location: admin.php?status=deleted");
     exit();
 }
 ?>
@@ -24,7 +26,7 @@ if(isset($_GET['delete'])){
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Admin - TiendaTech</title>
+    <title>Admin - Tienda</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -51,6 +53,24 @@ if(isset($_GET['delete'])){
                     <i class="fas fa-plus"></i> Añadir Producto
                 </button>
             </div>
+
+            <?php if (isset($_GET['status']) && $_GET['status'] === 'updated'): ?>
+                <div style="margin: 0 1rem 1rem; padding: 0.75rem 1rem; border-radius: 8px; background: #dcfce7; color: #166534; font-weight: 600;">
+                    Producto actualizado correctamente.
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($_GET['status']) && $_GET['status'] === 'deleted'): ?>
+                <div style="margin: 0 1rem 1rem; padding: 0.75rem 1rem; border-radius: 8px; background: #dcfce7; color: #166534; font-weight: 600;">
+                    Producto eliminado correctamente.
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($_GET['error']) && $_GET['error'] === 'no-encontrado'): ?>
+                <div style="margin: 0 1rem 1rem; padding: 0.75rem 1rem; border-radius: 8px; background: #fee2e2; color: #991b1b; font-weight: 600;">
+                    El producto no existe o ya fue eliminado.
+                </div>
+            <?php endif; ?>
             
             <div class="table-container">
                 <table>
@@ -103,9 +123,12 @@ if(isset($_GET['delete'])){
                     
                     <label>Precio</label>
                     <input type="number" name="price" step="0.01" placeholder="0.00" required>
+
+                    <label>Stock Inicial</label>
+                    <input type="number" name="stock" min="0" step="1" placeholder="Ej. 25" required>
                     
-                    <label>URL de la Imagen</label>
-                    <input type="url" name="image" placeholder="https://..." required>
+                    <label>Ruta de la Imagen</label>
+                    <input type="text" name="image" placeholder="uploads/mi-imagen.jpg o https://..." required>
                     
                     <label>Descripción</label>
                     <textarea name="description" rows="4" placeholder="Detalles del producto..."></textarea>
